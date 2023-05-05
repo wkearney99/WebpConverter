@@ -41,7 +41,7 @@ namespace WebpConverter
         //dialog
         private MetroDialogSettings generalDialogSetting = new MetroDialogSettings()
         {
-            AffirmativeButtonText = "确定",
+            AffirmativeButtonText = "Ok",
             DialogTitleFontSize = 17,
             DialogMessageFontSize = 14
         };
@@ -96,7 +96,7 @@ namespace WebpConverter
         {
             if (filePath == null || filePath.Length <= 0)
             {
-                await this.ShowMessageAsync("错误", "请选择需要转换的图片。", MessageDialogStyle.Affirmative, generalDialogSetting);
+                await this.ShowMessageAsync("Error", "Please select the image you want to convert。", MessageDialogStyle.Affirmative, generalDialogSetting);
             }
             else
             {
@@ -136,7 +136,7 @@ namespace WebpConverter
 
         private void ConvertToJPGNQ(string path)
         {
-            ISupportedImageFormat jpgFormat = new JpegFormat { Quality = 80 };
+            ISupportedImageFormat jpgFormat = new JpegFormat { Quality = 60 };
             ConvertWebPToImage(path, jpgFormat, ".jpg");
         }
 
@@ -165,10 +165,10 @@ namespace WebpConverter
                     string savePath = Path.GetDirectoryName(path) + @"/" + Path.GetFileNameWithoutExtension(path) + ".webp";
                     if (File.Exists(savePath))
                     {
-                        var existDialogRes = await this.ShowMessageAsync("文件已存在", "将要保存的文件: " + savePath + " 已存在，是否覆盖？", MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings()
+                        var existDialogRes = await this.ShowMessageAsync("File already exists", "The file that will be saved: " + savePath + " Replace？", MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings()
                         {
-                            AffirmativeButtonText = "覆盖",
-                            NegativeButtonText = "取消",
+                            AffirmativeButtonText = "Ok",
+                            NegativeButtonText = "Cancel",
                             DialogTitleFontSize = 16
                         });
                         if (!(existDialogRes == MessageDialogResult.Affirmative))
@@ -182,10 +182,10 @@ namespace WebpConverter
                     }
                     catch (Exception e)
                     {
-                        await this.ShowMessageAsync("错误", "转换时发生错误: " + e.Message, MessageDialogStyle.Affirmative, generalDialogSetting);
+                        await this.ShowMessageAsync("Error", "An error occurred while converting: " + e.Message, MessageDialogStyle.Affirmative, generalDialogSetting);
                         return;
                     }
-                    await this.ShowMessageAsync("转换完成", "图片已转换完成。", MessageDialogStyle.Affirmative, generalDialogSetting);
+                    await this.ShowMessageAsync("Done", "The image has been converted。", MessageDialogStyle.Affirmative, generalDialogSetting);
                 }
             }
         }
@@ -200,7 +200,7 @@ namespace WebpConverter
             }
             catch (Exception e)
             {
-                await this.ShowMessageAsync("错误", "读入图片时发生错误: " + e.Message, MessageDialogStyle.Affirmative, generalDialogSetting);
+                await this.ShowMessageAsync("Error", "An error occurred while reading the image: " + e.Message, MessageDialogStyle.Affirmative, generalDialogSetting);
                 return;
             }
             using (MemoryStream inStream = new MemoryStream(b_image))
@@ -210,10 +210,10 @@ namespace WebpConverter
                     string savePath = Path.GetDirectoryName(path) + @"/" + Path.GetFileNameWithoutExtension(path) + formatString;
                     if (File.Exists(savePath))
                     {
-                        var existDialogRes = await this.ShowMessageAsync("文件已存在", "将要保存的文件: " + savePath + " 已存在，是否覆盖？", MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings()
+                        var existDialogRes = await this.ShowMessageAsync("File already exists", "The file that will be saved: " + savePath + " Overwrite？", MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings()
                         {
-                            AffirmativeButtonText = "覆盖",
-                            NegativeButtonText = "取消",
+                            AffirmativeButtonText = "Ok",
+                            NegativeButtonText = "Cancel",
                             DialogTitleFontSize = 16
                         });
                         if (!(existDialogRes == MessageDialogResult.Affirmative))
@@ -228,10 +228,10 @@ namespace WebpConverter
                     }
                     catch (Exception e)
                     {
-                        await this.ShowMessageAsync("错误", "转换时发生错误: " + e.Message, MessageDialogStyle.Affirmative, generalDialogSetting);
+                        await this.ShowMessageAsync("Error", "An error occurred while converting: " + e.Message, MessageDialogStyle.Affirmative, generalDialogSetting);
                         return;
                     }
-                    await this.ShowMessageAsync("转换完成", "图片已转换完成。", MessageDialogStyle.Affirmative, generalDialogSetting);
+                    await this.ShowMessageAsync("Done", "The image has been converted。", MessageDialogStyle.Affirmative, generalDialogSetting);
                 }
             }
         }
@@ -255,8 +255,8 @@ namespace WebpConverter
         {
             OpenFileDialog fileDialog = new OpenFileDialog
             {
-                Title = "请选择需要转换的图片文件",
-                Filter = "图片文件|*.jpg|图片文件|*.png|图片文件|*.jpeg|图片文件|*.webp|所有文件|*.*"
+                Title = "Select files",
+                Filter = "filename|*.jpg|filename|*.png|filename|*.jpeg|filename|*.webp|All files|*.*"
             };
             if (fileDialog.ShowDialog() == true)
             {
@@ -288,7 +288,7 @@ namespace WebpConverter
             }
             else
             {
-                await this.ShowMessageAsync("类型错误", "工具只支持 jpg，png，webp 格式的文件。", MessageDialogStyle.Affirmative, generalDialogSetting);
+                await this.ShowMessageAsync("Error", "Only jpg，png，webp formats are supported。", MessageDialogStyle.Affirmative, generalDialogSetting);
                 return;
             }
             this.BeginInvoke(()=> {
